@@ -15,9 +15,13 @@ Includes:
  - **EntityController**: Extendable controller containing the basic CRUD routes.
  - **EntityPolicy**: By default all CRUD actions are allowed. Extend and override as required.
 
+
+
 ## Setup
 
 Assuming an entity called `Todo` you can create a basic crud controller with the following code:
+
+
 
 ### Creating the entity
 
@@ -38,7 +42,28 @@ namespace Bcc.Example.Entities
 }
 ```
 
+### Creating the context
 
+Create a context file class that extends the BaseContext:
+
+```
+using Bcc.EntityApi;
+using Microsoft.EntityFrameworkCore;
+
+namespace Bcc.Example
+{
+    public class EntityContext : EntityApi.BaseContext
+    {
+        // Add you DbSet<T> here:
+        // eg. public DbSet<User> Users { get; set; }
+        public DbSet<Todo> Todos { get; set; }
+
+        public EntityContext(DbContextOptions options) : base(options)
+        {
+        }
+    }
+}
+```
 
 ### Creating the controller
 
@@ -48,7 +73,7 @@ Recommended to store all controllers in a directory called `Controllers`
 using Bcc.EntityApi;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Bcc.Example.Controlllers
+namespace Bcc.Example.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -72,7 +97,7 @@ Let's disable being able to view all todo's by overriding the `CanViewAny` polic
 using System.Threading.Tasks;
 using Bcc.EntityApi;
 
-namespace Bcc.Consents.Api
+namespace Bcc.Example.Policies
 {
     public class TodoPolicy : EntityPolicy<Todo>
     {
@@ -85,5 +110,17 @@ namespace Bcc.Consents.Api
 ```
 
 
+## Extra
 
+
+To make use of the default swagger comments,
+add the following line into your `Startup.cs` file under the `ConfigureServices` function
+
+```
+services.AddSwaggerGen(c =>
+{
+    …
+    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Bcc.EntityApi.xml"));
+});
+```
 

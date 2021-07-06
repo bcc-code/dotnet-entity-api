@@ -21,6 +21,9 @@ namespace Bcc.EntityApi
             _dbSet = _context.Set<TEntity>();
         }
 
+        /// <summary>
+        /// Fetch all Entities.
+        /// </summary>
         // GET: api/Entity
         [HttpGet]
         public virtual async Task<ActionResult<IEnumerable<TEntity>>> GetAll()
@@ -33,6 +36,9 @@ namespace Bcc.EntityApi
             return await _dbSet.ToListAsync();
         }
 
+        /// <summary>
+        /// Fetch a specific Entity.
+        /// </summary>
         // GET: api/Entity/bada4c31-fa63-4e5e-9a0f-af6ddca15092
         [HttpGet("{id}")]
         public virtual async Task<ActionResult<TEntity>> Get(Guid id)
@@ -44,9 +50,12 @@ namespace Bcc.EntityApi
                 return Forbid();
             }
 
-            return entity;
+            return new ActionResult<TEntity>(entity);
         }
 
+        /// <summary>
+        /// Create a new Entity.
+        /// </summary>
         // POST: api/Entity
         [HttpPost]
         public virtual async Task<ActionResult<TEntity>> Create(TEntity entity)
@@ -55,11 +64,15 @@ namespace Bcc.EntityApi
             {
                 return Forbid();
             }
-            await _dbSet.AddAsync(entity);
+            var testEntity = await _dbSet.AddAsync(entity);
             await _context.SaveChangesAsync();
-            return entity;
+
+            return CreatedAtAction(nameof(Get), new { id = entity.Id }, entity);
         }
 
+        /// <summary>
+        /// Update an Entity.
+        /// </summary>
         // PUT: api/Entity
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut]
@@ -72,9 +85,13 @@ namespace Bcc.EntityApi
 
             _dbSet.Update(entity);
             await _context.SaveChangesAsync();
-            return entity;
+
+            return new ActionResult<TEntity>(entity);
         }
 
+        /// <summary>
+        /// Delete a specific Entity.
+        /// </summary>
         // DELETE: api/Entity/bada4c31-fa63-4e5e-9a0f-af6ddca15092
         [HttpDelete("{id}")]
         public virtual async Task<ActionResult> Delete(Guid id)

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Bcc.EntityApi</name>
+    </assembly>
+    <members>
+        <member name="M:Bcc.EntityApi.EntityController`1.GetAll">
+            <summary>
+            Fetch all Entities.
+            </summary>
+        </member>
+        <member name="M:Bcc.EntityApi.EntityController`1.Get(System.Guid)">
+            <summary>
+            Fetch a specific Entity.
+            </summary>
+        </member>
+        <member name="M:Bcc.EntityApi.EntityController`1.Create(`0)">
+            <summary>
+            Create a new Entity.
+            </summary>
+        </member>
+        <member name="M:Bcc.EntityApi.EntityController`1.Update(`0)">
+            <summary>
+            Update an Entity.
+            </summary>
+        </member>
+        <member name="M:Bcc.EntityApi.EntityController`1.Delete(System.Guid)">
+            <summary>
+            Delete a specific Entity.
+            </summary>
+        </member>
+    </members>
+</doc>
